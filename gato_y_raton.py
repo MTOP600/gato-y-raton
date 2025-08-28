@@ -9,18 +9,42 @@ posicion_actual_gato = [1,1]
 
 posicion_actual_raton = [8,8]
 
+#una funcion de evaluacion
+def movimientos_posibles_raton():
+    movimientos = [
+    (1,0), #x aumenta en 1, y se queda igual (se mueve a la derecha)
+    (-1,0), #x disminuye en 1, y se queda igual (se mueve a la izquierda)
+    (0,1), #y aumenta en 1, x se queda igual (se mueve hacia arriba)
+    (0,-1), #y disminuye en 1, x se queda igual (se mueve hacia abajo)
+    (1,1), #x e y aumentan en 1 (se mueve ariiba a la derecha)
+    (1,-1), # x aumenta 1 e y disminuye 1 (se mueve abajo a la derecha)
+    (-1,-1), # x e y disminuyen en 1, (se mueve abajo a la izquierda)
+    (-1,1) # x disminuye en 1 e y aumenta en 1 (se mueve arriba a la izquerda)
+    ]
+    movimientos_disponibles_raton = []
+    for mx, my in movimientos:
+        posible_movimiento_x = posicion_actual_raton[0] + mx
+        posible_movimiento_y = posicion_actual_raton[1] + my
+        if tablero[posible_movimiento_x, posible_movimiento_y] != 0:
+            movimientos_disponibles_raton.append((posible_movimiento_x, posible_movimiento_y))
+
+    return(movimientos_disponibles_raton)
+
+
 #una funcion para que el raton se mueva aleatoriamente
 def movimiento_aleatorio_raton(posicion_actual_raton):
-    movimientos = [
-        (1,0), #x aumenta en 1, y se queda igual (se mueve a la derecha)
-        (-1,0), #x disminuye en 1, y se queda igual (se mueve a la izquierda)
-        (0,1), #y aumenta en 1, x se queda igual (se mueve hacia arriba)
-        (0,-1), #y disminuye en 1, x se queda igual (se mueve hacia abajo)
-        (1,1), #x e y aumentan en 1 (se mueve ariiba a la derecha)
-        (1,-1), # x aumenta 1 e y disminuye 1 (se mueve abajo a la derecha)
-        (-1,-1), # x e y disminuyen en 1, (se mueve abajo a la izquierda)
-        (-1,1) # x disminuye en 1 e y aumenta en 1 (se mueve arriba a la izquerda)
-    ]
+    posicion_actual_raton_aux = posicion_actual_raton
+    movimientos = movimientos_posibles_raton(posicion_actual_raton_aux)
+    # movimientos = [
+    #     (1,0), #x aumenta en 1, y se queda igual (se mueve a la derecha)
+    #     (-1,0), #x disminuye en 1, y se queda igual (se mueve a la izquierda)
+    #     (0,1), #y aumenta en 1, x se queda igual (se mueve hacia arriba)
+    #     (0,-1), #y disminuye en 1, x se queda igual (se mueve hacia abajo)
+    #     (1,1), #x e y aumentan en 1 (se mueve ariiba a la derecha)
+    #     (1,-1), # x aumenta 1 e y disminuye 1 (se mueve abajo a la derecha)
+    #     (-1,-1), # x e y disminuyen en 1, (se mueve abajo a la izquierda)
+    #     (-1,1) # x disminuye en 1 e y aumenta en 1 (se mueve arriba a la izquerda)
+    # ]
     random.shuffle(movimientos)
 
     for mx, my in movimientos: #mx toma el primer elemento de la tupla movimientos (x), y my toma el segundo elemento (y)
@@ -84,6 +108,7 @@ while True:
     else:
         print('Valor invalido')
 
+
 if jugar_como == 'i':
     while True:
         os.system(
@@ -98,7 +123,12 @@ if jugar_como == 'i':
         tablero[9,:] = 9
         tablero[:,0] = 9
         tablero[:,9] = 9
-        tablero[4,4] = 9
+        
+
+        obstaculos = [(4,1), (2,2), (2,4), (2,6), (3,2), (3,6), (3,7), (4,4), (4,5), (5,2), (5,3), (5,7), (6,5), (7,1), (7,3), (7,7), (8,5)]
+
+        for ox,oy in obstaculos:
+            tablero[ox,oy] = 9
 
         #definimos la posicion del raton y del gato
 
@@ -131,7 +161,7 @@ if jugar_como == 'i':
         else:
             posicion_actual_gato = list(nueva_posicion_gato)        
         
-        time.sleep(3)
+        time.sleep(.5)
 
 
 
